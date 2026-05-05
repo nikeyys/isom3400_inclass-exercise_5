@@ -24,7 +24,7 @@ with st.sidebar:
 
     # Multiselect widget
     # fill in the code below
-    selected_tickers = st.multiselect("Select Stocks", tickers_100, default=["AAPL", "NVDA", "TSLA"])
+    selected_tickers = st.multiselect("Select Stocks", tickers_100, default=["TSLA", "NVDA", "AAPL"])
 
     # Year range slider
     # fill in the code below
@@ -33,22 +33,22 @@ with st.sidebar:
 # a bar chart that visualizes the market cap of S&P 100 stocks by sector
 # fill in the code below
 if show_sector:
-    st.header()
-    st.bar_chart()
+    st.header("Market Cap by Sector")
+    st.bar_chart(stock_data.groupby("Sector")["Market Cap"].sum())
 
 # display price and volme charts if stocks are selected; show error message otherwise
 # fill in the code below
 if selected_tickers:
-    st.header()
+    st.header(f"Stock Trend Analysis ({selected_years[0]} - {selected_years[1]})")
     chart_data = stock_data[stock_data["Ticker"].isin(selected_tickers)]
 
     # Line chart for closing price
     st.subheader("Closing Prices")
-    st.line_chart()
+    st.line_chart(stock_data[selected_tickers].pivot(index="Date", columns="Ticker", values="Close"))
 
     # Bar chart for volume
     st.subheader("Trading Volume")
-    st.bar_chart()
+    st.bar_chart(stock_data[selected_tickers].pivot(index="Date", columns="Ticker", values="Volume"))
 
 # display the error message
 # fill in the code below
