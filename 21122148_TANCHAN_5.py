@@ -34,14 +34,24 @@ with st.sidebar:
 # fill in the code below
 if show_sector:
     st.header("Market Cap by Sector")
-    st.bar_chart(ticker_info.groupby("Sector")["Market Cap (B)"].sum())
+    st.bar_chart(
+        ticker_info[["Ticker", "Market Cap (B)", "Sector"]],
+        x="Sector",
+        y="Market Cap (B)",
+        x_label="Sector",
+        y_label="Market Cap (B)",
+        horizontal=True,
+        width=700,
+        height=500,
+        color="Ticker",
+    )
 
 # display price and volme charts if stocks are selected; show error message otherwise
 # fill in the code below
 if selected_tickers:
     st.header(f"Stock Trend Analysis ({selected_years[0]} - {selected_years[1]})")
-    chart_data = chart_data = stock_data.query(
-        f"Ticker in {selected_tickers} and Date < {selected_years[0]} and Date >= {selected_years[1]}"
+    chart_data = stock_data.query(
+        f"Ticker in {selected_tickers} and Date >= {selected_years[0]} and Date < {selected_years[1]}"
     )
 
     # Line chart for closing price
