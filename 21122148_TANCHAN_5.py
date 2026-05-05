@@ -34,7 +34,7 @@ with st.sidebar:
 # fill in the code below
 if show_sector:
     st.header("Market Cap by Sector")
-    st.bar_chart(stock_data.groupby("Sector")["Market Cap"].sum())
+    st.bar_chart(ticker_info.groupby("Sector")["Market Cap"].sum())
 
 # display price and volme charts if stocks are selected; show error message otherwise
 # fill in the code below
