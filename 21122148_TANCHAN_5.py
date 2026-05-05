@@ -34,21 +34,23 @@ with st.sidebar:
 # fill in the code below
 if show_sector:
     st.header("Market Cap by Sector")
-    st.bar_chart(ticker_info.groupby("Sector")["Market Cap"].sum())
+    st.bar_chart(ticker_info.groupby("Sector")["Market Cap (B)"].sum())
 
 # display price and volme charts if stocks are selected; show error message otherwise
 # fill in the code below
 if selected_tickers:
     st.header(f"Stock Trend Analysis ({selected_years[0]} - {selected_years[1]})")
-    chart_data = stock_data[stock_data["Ticker"].isin(selected_tickers)]
+    chart_data = chart_data = stock_data.query(
+        f"Ticker in {selected_tickers} and Date < {selected_years[0]} and Date >= {selected_years[1]}"
+    )
 
     # Line chart for closing price
     st.subheader("Closing Prices")
-    st.line_chart(stock_data[selected_tickers].pivot(index="Date", columns="Ticker", values="Close"))
+    st.line_chart(chart_data, x="Date", y="Close", color="Ticker")
 
     # Bar chart for volume
     st.subheader("Trading Volume")
-    st.bar_chart(stock_data[selected_tickers].pivot(index="Date", columns="Ticker", values="Volume"))
+    st.bar_chart(chart_data, x="Date", y="Volume", color="Ticker")
 
 # display the error message
 # fill in the code below
